@@ -11,16 +11,30 @@ def template_view(request):
         return render(request, 'app/template_form.html')
 
     if request.method == "POST":
-        received_data = request.POST  # Приняли данные в словарь
+        received_data = request.POST
+        form = TemplateForm(received_data)
+        # Приняли данные в словарь
+        # data={}
+        # # как пример получение данных по ключу `my_text`
+        # # my_text = received_data.get('my_text')
+        # data['my_text'] = received_data.get('my_text')
+        # data['my_select']= received_data.get('my_select')
+        # # TODO Проведите здесь получение и обработку данных если это необходимо
+        # #     return JsonResponse(data, json_dumps_params={'ensure_ascii': False,'indent': 4})
+        # # TODO Верните HttpRequest или JsonResponse с данными
 
-        # как пример получение данных по ключу `my_text`
-        # my_text = received_data.get('my_text')
-
-        # TODO Проведите здесь получение и обработку данных если это необходимо
-
-        # TODO Верните HttpRequest или JsonResponse с данными
-
-
+        if form.is_valid():
+            my_text=form.cleaned_data.get("my_text")
+            my_select = form.cleaned_data.get("my_select")
+            my_textarea = form.cleaned_data.get("my_textarea")
+            my_password= form.cleaned_data.get("my_password")
+            my_email= form.cleaned_data.get("my_email")
+            my_bdate = form.cleaned_data.get("my_bdate")
+            my_number = form.cleaned_data.get("my_number")
+            my_chek = form.cleaned_data.get("my_chek")
+            return JsonResponse(form.cleaned_data, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+        return render(request, 'app/template_form.html', context={"form": form})
+        # return JsonResponse(form.cleaned_data, json_dumps_params={'ensure_ascii': False,'indent': 4})
 def login_view(request):
     if request.method == "GET":
         return render(request, 'app/login.html')

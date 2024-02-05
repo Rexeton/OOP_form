@@ -19,8 +19,8 @@
 					<h4 class="text-center mb-4">
 						Заголовок вашей формы
 					</h4>
-					<form method="post">
-                        {% csrf_token %}
+					<form action="", method="post">
+						{% csrf_token %}
 						<!-- Запишите здесь тег {% csrf_token %} -->
 
                         <label for="my_text">Введи своё имя</label>  <!--for="my_text" это привязка к объекту с id="my_text", id - всегда должен быть уникален во всем HTML документе-->
@@ -43,7 +43,33 @@
                         <div class="form-input">
                             <textarea id="my_textarea" name="my_textarea" rows="10" placeholder="Начни писать здесь" required></textarea>
                         </div>
+						<label for="my_select">Внесите вашу электронную почту</label>
+						<div class="form-input">  <!-- Блок для оборачивания строки формы -->
+							<span><i class="fa fa-id-card"></i></span>
+							<input type="email" id="my_email" name="my_email" placeholder="@dot.com" required>
+						</div>
+						<label for="my_select">Введите пароль</label>
+						<div class="form-input">  <!-- Блок для оборачивания строки формы -->
+							<span><i class="fa fa-id-card"></i></span>
+							<input type="password" id="my_password" name="mmy_password" placeholder="qwerty" required>
+						</div>
+						<label for="my_select">Введите дату днюхи</label>
+						<div class="form-input">  <!-- Блок для оборачивания строки формы -->
+							<span><i class="fa fa-id-card"></i></span>
+							<input type="date" id="my_bdate" name="my_bdate" placeholder="01/01/1500" >
+						</div>
+						<label for="my_select">Введите случайное число</label>
+						<div class="form-input">  <!-- Блок для оборачивания строки формы -->
+							<span><i class="fa fa-id-card"></i></span>
+							<input type="number" id="my_number" name="my_number" placeholder="777" >
+						</div>
+						<label for="my_select">Выберите</label>
+						<div class="form-input">  <!-- Блок для оборачивания строки формы -->
+							<span><i class="fa fa-id-card"></i></span>
+							<input type="checkbox" id="my_chek" name="my_chek" placeholder="777" >
+							<option value="begin">Начальные</option>
 
+						</div>
                         <!-- Добавьте своих полей --------------------------------------------------------------------->
                         <!-- Сформируйте и заполните нужные строки ввода (оберните их <div class="form-input"> как показано выше. Это нужно чтобы были одинаковые стили)-->
 
@@ -57,7 +83,11 @@
 
                         <!---- Добавьте еще поле для переключателя checkbox (придумайте текст для label)---->
                         <!--------------------------------------------------------------------------------------------->
-
+						{% if form.errors %}
+							<div class="mb-3 d-flex align-items-center">
+								<span style="color: red; font-size: 16px">{{ form.errors }}</span>
+							</div>
+						{% endif %}
                         <!-- В форме всегда присутствует кнопка чтобы что-то отправить. Кнопку не изменять! -->
 						<div class="mb-3"> 
 							<button type="submit" class="btn btn-block">
