@@ -9,6 +9,23 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+INSTALLED_APPS = [
+
+    'social_django'
+
+]
+
+
+AUTHENTICATION_BACKENDS = (
+   'social_core.backends.github.GithubOAuth2',
+   'django.contrib.auth.backends.ModelBackend',
+)
+
+LOGIN_REDIRECT_URL = '/profile/' # Чтобы после авторизации перенаправлялось на страницу пользователя
+
+SOCIAL_AUTH_GITHUB_KEY = 'ed83fcf56045f07fbff4'
+SOCIAL_AUTH_GITHUB_SECRET = '304af9bfec82f46a75728d630ba78dce7f277feb'
+SOCIAL_AUTH_GITHUB_SCOPE = ['user:email', 'read:user']
 
 from pathlib import Path
 
