@@ -5,6 +5,10 @@ from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from .forms import TemplateForm,CustomUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.views import View
+from django.views.generic import TemplateView
+from django.views.generic import FormView
+from django.contrib.auth.views import LoginView
 
 def template_view(request):
     if request.method == "GET":
@@ -98,3 +102,57 @@ def get_text_json(request):
         return JsonResponse({"text": get_random_text()},
                             json_dumps_params={"ensure_ascii": False})
 
+
+class TemplView(View):
+    def get(self, request):
+        return render(request, 'app/template_form.html') # TODO скопируйте код, что есть в template_view в теле условия request.method == "GET"
+
+    def post(self, request):
+        received_data = request.POST
+        form = TemplateForm(received_data)
+        if form.is_valid():
+            my_text=form.cleaned_data.get("my_text")
+            my_select = form.cleaned_data.get("my_select")
+            my_textarea = form.cleaned_data.get("my_textarea")
+            my_password= form.cleaned_data.get("my_password")
+            my_email= form.cleaned_data.get("my_email")
+            my_bdate = form.cleaned_data.get("my_bdate")
+            my_number = form.cleaned_data.get("my_number")
+            my_chek = form.cleaned_data.get("my_chek")
+            return JsonResponse(form.cleaned_data, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+        return render(request, 'app/template_form.html', context={"form": form})
+# TODO скопируйте код, что есть в template_view в теле условия request.method == "POST"
+
+class MyTemplView(TemplateView):
+    template_name = 'app/template_form.html'
+
+    def post(self, request, *args, **kwargs):
+        received_data = request.POST
+        form = TemplateForm(received_data)
+        if form.is_valid():
+            my_text=form.cleaned_data.get("my_text")
+            my_select = form.cleaned_data.get("my_select")
+            my_textarea = form.cleaned_data.get("my_textarea")
+            my_password= form.cleaned_data.get("my_password")
+            my_email= form.cleaned_data.get("my_email")
+            my_bdate = form.cleaned_data.get("my_bdate")
+            my_number = form.cleaned_data.get("my_number")
+            my_chek = form.cleaned_data.get("my_chek")
+            return JsonResponse(form.cleaned_data, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+        context = self.get_context_data(**kwargs)  # Получаем контекст, если он есть
+        context["form"] = form  # Записываем в контекст форму
+        return self.render_to_response(context)  # Возвращаем вызов метода render_to_response
+
+class MyFormView(FormView):
+    template_name = 'app/template_form.html'
+    form_class = TemplateForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        return JsonResponse(form.cleaned_data)
+
+class MyLoginView(LoginView):
+    template_name = 'app/login.html'
+    redirect_authenticated_user = True  # Данный флаг не позволит авторизированному
+    # пользователю зайти на страницу с авторизацией и сразу его перенаправит на
+    # ссылку редиректа. По умолчанию redirect_authenticated_user = False

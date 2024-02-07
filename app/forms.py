@@ -15,9 +15,9 @@ class TemplateForm(forms.Form):
     my_textarea = forms.CharField(widget=forms.Textarea)
     my_password = forms.CharField(widget=forms.PasswordInput)
     my_email=forms.EmailField()
-    my_bdate=forms.DateField()
-    my_number=forms.IntegerField()
-    my_chek=forms.BooleanField()
+    #my_bdate=forms.DateField()
+    #my_number=forms.IntegerField()
+    #my_chek=forms.BooleanField()
 
     # TODO Опишите поля (поле для email, пароля, даты, целого числа, переключателя) и их параметры для вашего шаблона формы
 
